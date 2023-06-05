@@ -42,29 +42,20 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     """
     output = {}
 
-    # test_videos = json.load(open('/private/home/afourast/ht100m-step/annotations_v0/test_videos.json'))
-    # annots = json.load(open('/private/home/afourast/ht100m-step/annotations_v0/annotations_formatted.json'))
-    # test_annots = {ann['video']: ann for ann in annots if ann['video'] in test_videos}
-    # with open('/private/home/afourast/ht100m-step/annotations_v0/test_annotations_formatted.json', 'w') as fw:
-    #     json.dump(test_annots, fw)
-
-    # test_annots = json.load(open('/private/home/afourast/ht100m-step/annotations_v0/test_annotations_formatted.json'))
-    # submission = json.load(open('/private/home/afourast/ht100mstep-challenge/test_outputs/recall_1.json'))
-    # test_annots_5 = {kk: test_annots[kk] for kk in sorted(test_annots.keys())[:5]}
-    # with open('/private/home/afourast/ht100m-step/annotations_v0/test_annotations_formatted_5.json', 'w') as fw:
-    #     json.dump(test_annots_5, fw)
-
     test_annots = json.load(open(test_annotation_file))
     submission = json.load(open(user_submission_file))
 
     if not len(submission) == len(test_annots):
-        print('Missing some annotations')
+        print(f'Missing some annotations -- expected {len(test_annots)}, but received {len(submission)}')
 
     recalls = []
 
-    for vid in submission:
+    print(f'Evaluating Recall@1 on {len(test_annots)} samples.')
 
-        if vid not in test_annots:
+    for vid in test_annots:
+
+        if vid not in submission:
+            print(f'{vid} not found in annotations')
             continue
 
         n_txt = len(submission[vid])
