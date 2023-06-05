@@ -91,7 +91,7 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     output["result"] = [
         {
             "test_split": {
-                "recall@1": recall,
+                "Recall@1": recall,
             }
         }
     ]
