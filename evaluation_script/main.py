@@ -1,5 +1,6 @@
 import random
-
+import json 
+import numpy as np
 
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):
     print("Starting Evaluation.....")
@@ -40,42 +41,61 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
         }
     """
     output = {}
-    if phase_codename == "dev":
-        print("Evaluating for Dev Phase")
-        output["result"] = [
-            {
-                "train_split": {
-                    "Metric1": random.randint(0, 99),
-                    "Metric2": random.randint(0, 99),
-                    "Metric3": random.randint(0, 99),
-                    "Total": random.randint(0, 99),
-                }
+
+    # test_videos = json.load(open('/private/home/afourast/ht100m-step/annotations_v0/test_videos.json'))
+    # annots = json.load(open('/private/home/afourast/ht100m-step/annotations_v0/annotations_formatted.json'))
+    # test_annots = {ann['video']: ann for ann in annots if ann['video'] in test_videos}
+    # with open('/private/home/afourast/ht100m-step/annotations_v0/test_annotations_formatted.json', 'w') as fw:
+    #     json.dump(test_annots, fw)
+
+    # test_annots = json.load(open('/private/home/afourast/ht100m-step/annotations_v0/test_annotations_formatted.json'))
+    # submission = json.load(open('/private/home/afourast/ht100mstep-challenge/test_outputs/recall_1.json'))
+    # test_annots_5 = {kk: test_annots[kk] for kk in sorted(test_annots.keys())[:5]}
+    # with open('/private/home/afourast/ht100m-step/annotations_v0/test_annotations_formatted_5.json', 'w') as fw:
+    #     json.dump(test_annots_5, fw)
+
+    test_annots = json.load(open(test_annotation_file))
+    submission = json.load(open(user_submission_file))
+
+    if not len(submission) == len(test_annots):
+        print('Missing some annotations')
+
+    recalls = []
+
+    for vid in submission:
+
+        if vid not in test_annots:
+            continue
+
+        n_txt = len(submission[vid])
+        gt = test_annots[vid]
+        assert len(gt['segments']) == n_txt
+
+        for text_idx in range(n_txt):
+
+            if not gt['aligned'][text_idx]:
+                continue
+
+            pred_timestamp = submission[vid][text_idx]
+
+            segments_aligned = gt['segments'][text_idx]
+            retrieved = False
+            for segment in segments_aligned:
+                if segment[0] <= pred_timestamp <= segment[1]:
+                    retrieved = True
+                    break
+            recalls.append(retrieved)
+
+    recall = np.mean(recalls)
+
+    output["result"] = [
+        {
+            "test_split": {
+                "recall@1": recall,
             }
-        ]
-        # To display the results in the result file
-        output["submission_result"] = output["result"][0]["train_split"]
-        print("Completed evaluation for Dev Phase")
-    elif phase_codename == "test":
-        print("Evaluating for Test Phase")
-        output["result"] = [
-            {
-                "train_split": {
-                    "Metric1": random.randint(0, 99),
-                    "Metric2": random.randint(0, 99),
-                    "Metric3": random.randint(0, 99),
-                    "Total": random.randint(0, 99),
-                }
-            },
-            {
-                "test_split": {
-                    "Metric1": random.randint(0, 99),
-                    "Metric2": random.randint(0, 99),
-                    "Metric3": random.randint(0, 99),
-                    "Total": random.randint(0, 99),
-                }
-            },
-        ]
-        # To display the results in the result file
-        output["submission_result"] = output["result"][0]
-        print("Completed evaluation for Test Phase")
+        }
+    ]
+
+    print(output)
+
     return output
