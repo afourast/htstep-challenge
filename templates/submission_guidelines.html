@@ -1,18 +1,17 @@
-<h1>Test Server Input Guidelines</h1>
-<h2>Input</h2>
+<h2>Test Server Input Guidelines</h2>
+<h3>Input</h3>
 <p>
   We provide a list of test videos along with their activity label and candidate steps.
-  You can find the input file <a href="example_input_file.html">here</a>.
+  You can find the input file <a href="https://dl.fbaipublicfiles.com/ht-step/test_input.json">here</a>.
   The video IDs correspond to the original YouTube IDs used in HowTo100M.
   For each step, we provide the 'step_headline' and 'step_paragraph' entries, which can be used to ground the step.
 </p>
-<h2>Expected Input</h2>
+<h3>Example Expected JSON</h3>
 <p>
-  The test server expects JSON input containing video IDs as keys and lists of single timestamps as values.
+  The test server expects JSON file containing video IDs as keys and lists of single timestamps as values.
   The timestamps in the JSON represent the predictions of your model for grounding the step at the corresponding index in the list.
   The order of the steps aligns with the provided input file, which lists the candidate steps for each test video.
 </p>
-<h2>Example Expected JSON</h2>
 <pre>
   {
     "---0tKA3iYI": [196, 456, 34, 105, 721, 82],
