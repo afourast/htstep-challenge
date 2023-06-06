@@ -64,9 +64,6 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
 
         for text_idx in range(n_txt):
 
-            if segment[1] - segment[0] < 1: # ignore segments smaller than 1 second 
-                continue
-
             if not gt['aligned'][text_idx]:
                 continue
 
@@ -75,6 +72,10 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
             segments_aligned = gt['segments'][text_idx]
             retrieved = False
             for segment in segments_aligned:
+
+                if segment[1] - segment[0] < 1: # ignore segments smaller than 1 second 
+                    continue
+
                 if segment[0] <= pred_timestamp <= segment[1]:
                     retrieved = True
                     break
