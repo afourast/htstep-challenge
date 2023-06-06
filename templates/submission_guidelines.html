@@ -1,1 +1,56 @@
-<p>Submit any blank file here to see a random number generated for your submission. If you get lucky, you might reach the top of the leaderboard.</p>
+<h1>Test Server Input Guidelines</h1>
+
+
+<h2>Example Input JSON</h2>
+<pre>
+    {
+    "---0tKA3iYI": [0, 201, 36, 87, 0, 0, 0, 631, 0, 0],
+    "--Gscx86GA0": [45, 550, 610, 0, 0],
+    "--KXjWTy7Yw": [0, 0, 0, 75, 0, 0, 136, 0, 0, 0, 259]
+    }
+</pre>
+
+<p>In this example, we have three video IDs with their corresponding lists of timestamps.</p>
+<ul>
+    <li>Video ID "---0tKA3iYI" has timestamps: [196, 456, 34, 105, 721, 82]</li>
+    <li>Video ID "--Gscx86GA0" has timestamps: [0, 295, 509, 143, 612]</li>
+    <li>Video ID "--KXjWTy7Yw" has timestamps: [200, 48, 831, 630, 402]</li>
+</ul>
+
+<p>Please ensure that your JSON input follows the same format when making requests to the test server.</p>
+
+
+
+<h2>Input</h2>
+
+<p>
+We provide a list of test videos, along with their activity label and candidate steps.
+ You can find the input file <a href="example_input_file.html">here</a>.
+The video IDs are the original YouTube IDs used in HowTo100M.
+For each step, we provide the 'step_headline' and 'step_paragraph' entries, which can be used to ground the step.
+</p>
+
+
+<p>The test server accepts JSON input containing video IDs as keys and lists of single timestamps as values.</p>
+<p>The timestamps in the JSON represent your model's predictions for grounding
+     the step at the corredponsing index in the list. The order of the steps aligns with the provided input file, 
+     which lists the candidate steps for each test video.
+    </p>
+
+<h2>Example Expected JSON</h2>
+  <pre>
+    {
+      "---0tKA3iYI": [196, 456, 34, 105, 721, 82],
+      "--Gscx86GA0": [0, 295, 509, 143, 612],
+      "--KXjWTy7Yw": [200, 48, 831, 630, 402]
+    }
+  </pre>
+
+  <p>In this example, we have three video IDs with their corresponding lists of timestamps.</p>
+  <ul>
+    <li>Video ID "---0tKA3iYI" has timestamps: [196, 456, 0, 105, 721, 82]</li>
+    <li>Video ID "--Gscx86GA0" has timestamps: [0, 295, 0, 143, 612]</li>
+    <li>Video ID "--KXjWTy7Yw" has timestamps: [200, 48, 831, 0, 402]</li>
+  </ul>
+
+  Predictions for the non-alignable steps are ignored. 
