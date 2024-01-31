@@ -1,1 +1,1 @@
-from .main import evaluate
+../../evaluation_script/__init__.py
