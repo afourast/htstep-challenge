@@ -2,7 +2,26 @@ import random
 import json 
 import numpy as np
 
+
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):
+
+    if phase_codename == 'test':
+        evaluate_recall(test_annotation_file, user_submission_file, phase_codename, **kwargs)
+
+    elif phase_codename == 'map_test_unseen':
+        evaluate_map(test_annotation_file, user_submission_file, phase_codename, **kwargs)
+
+        
+def evaluate_map(test_annotation_file, user_submission_file, phase_codename, **kwargs):
+
+    split = 'test_seen'
+    tiou_thresholds = np.linspace(0.3, 0.7, 5)
+
+    from eval_detection import evaluate_article_grounding
+    evaluate_article_grounding(test_annotation_file, user_submission_file, split, tiou_thresholds)
+
+
+def evaluate_recall(test_annotation_file, user_submission_file, phase_codename, **kwargs):
     print("Starting Evaluation.....")
     """
     Evaluates the submission for a particular challenge phase and returns score

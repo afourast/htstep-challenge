@@ -70,10 +70,38 @@ challenge_phases:
     is_restricted_to_select_one_submission: False
     is_partial_submission_evaluation_enabled: False
 
+  # - id: 2
+  #   name: mAP grounding seen Test Phase
+  #   description: templates/challenge_phase_3_description.html
+  #   leaderboard_public: False
+  #   is_public: False
+  #   is_submission_public: False
+  #   start_date: 2019-01-01 00:00:00
+  #   end_date: 2099-05-24 23:59:59
+  #   test_annotation_file: annotations/test_annotations_testsplit.json
+  #   codename: map_test_unseen
+  #   max_submissions_per_day: 10
+  #   max_submissions_per_month: 50
+  #   max_submissions: 100
+  #   default_submission_meta_attributes:
+  #     - name: method_name
+  #       is_visible: True
+  #     - name: method_description
+  #       is_visible: True
+  #     - name: project_url
+  #       is_visible: True
+  #     - name: publication_url
+  #       is_visible: True
+  #   is_restricted_to_select_one_submission: False
+  #   is_partial_submission_evaluation_enabled: False
+
 dataset_splits:
   - id: 1
-    name: Test Split
+    name: Seen Test Split
     codename: test_split
+  - id: 2
+    name: Unseen Test Split
+    codename: unseen_test_split
 
 challenge_phase_splits:
   - challenge_phase_id: 1
@@ -82,3 +110,9 @@ challenge_phase_splits:
     visibility: 3
     leaderboard_decimal_precision: 2
     is_leaderboard_order_descending: True
+  # - challenge_phase_id: 2
+  #   leaderboard_id: 2
+  #   dataset_split_id: 1
+  #   visibility: 3
+  #   leaderboard_decimal_precision: 2
+  #   is_leaderboard_order_descending: True
